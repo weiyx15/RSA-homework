@@ -7,7 +7,7 @@ public class RSAUI extends JFrame {
     private RSA rsa = new RSA(1024);
 
     private final int WIDTH = 900;
-    private final int HEIGHT = 600;
+    private final int HEIGHT = 900;
 
     private JPanel content;
 
@@ -43,14 +43,26 @@ public class RSAUI extends JFrame {
         setResizable(false);
 
         content = new JPanel();
+
         content.setLayout(new GridLayout(1, 3));
 
-        genKeyPanel = new JPanel(new GridLayout(2, 1));
-        encryptPanel = new JPanel(new GridLayout(5, 1));
-        decryptPanel = new JPanel(new GridLayout(5, 1));
+        genKeyPanel = new JPanel(new GridLayout(5, 1));
+        encryptPanel = new JPanel();
+        decryptPanel = new JPanel();
 
-        upperGenKeyPanel = new JPanel(new GridLayout(1, 3));
-        lowerGenKeyPanel = new JPanel(new GridLayout(3, 1));
+        upperGenKeyPanel = new JPanel();
+//        lowerGenKeyPanel = new JPanel();
+
+
+//        content.setLayout(new GridLayout(1, 3));
+//
+//        genKeyPanel = new JPanel(new GridLayout(2, 1));
+//        encryptPanel = new JPanel(new GridLayout(5, 1));
+//        decryptPanel = new JPanel(new GridLayout(5, 1));
+//
+//        upperGenKeyPanel = new JPanel(new GridLayout(1, 3));
+//        lowerGenKeyPanel = new JPanel(new GridLayout(3, 1));
+
         bitLengthLabel = new JLabel("bit length");
         bitLengthCombo = new JComboBox<Integer>(new Integer[]{1024, 2048});
         genKeyButton = new JButton("gen key");
@@ -75,13 +87,17 @@ public class RSAUI extends JFrame {
         upperGenKeyPanel.add(bitLengthCombo);
         upperGenKeyPanel.add(genKeyButton);
 
-        lowerGenKeyPanel.add(publicKeyLabel);
-        lowerGenKeyPanel.add(publicKeyDisp);
-        lowerGenKeyPanel.add(privateKeyLabel);
-        lowerGenKeyPanel.add(privateKeyDisp);
+//        lowerGenKeyPanel.add(publicKeyLabel);
+//        lowerGenKeyPanel.add(publicKeyDisp);
+//        lowerGenKeyPanel.add(privateKeyLabel);
+//        lowerGenKeyPanel.add(privateKeyDisp);
 
-        genKeyPanel.add(lowerGenKeyPanel);
         genKeyPanel.add(upperGenKeyPanel);
+//        genKeyPanel.add(lowerGenKeyPanel);
+        genKeyPanel.add(publicKeyLabel);
+        genKeyPanel.add(publicKeyDisp);
+        genKeyPanel.add(privateKeyLabel);
+        genKeyPanel.add(privateKeyDisp);
 
         encryptPanel.add(encryptLabel);
         encryptPanel.add(encryptInLabel);
