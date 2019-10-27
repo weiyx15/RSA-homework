@@ -13,7 +13,7 @@ public class RSAUI extends JFrame {
 
     private JPanel genKeyPanel;
     private JPanel upperGenKeyPanel;
-    private JPanel lowerGenKeyPanel;
+    private Box genKeyBox;
     private JLabel bitLengthLabel;
     private JComboBox<Integer> bitLengthCombo;
     private JButton genKeyButton;
@@ -34,7 +34,7 @@ public class RSAUI extends JFrame {
     private JLabel decryptInLabel;
     private JLabel decryptOutLabel;
     private JTextArea decryptInput;
-    private JTextArea decryptOuput;
+    private JTextArea decryptOutput;
 
     public RSAUI() {
         super("RSA by weiyuxuan");
@@ -46,58 +46,53 @@ public class RSAUI extends JFrame {
 
         content.setLayout(new GridLayout(1, 3));
 
-        genKeyPanel = new JPanel(new GridLayout(5, 1));
+        genKeyPanel = new JPanel(new FlowLayout());
         encryptPanel = new JPanel();
         decryptPanel = new JPanel();
 
         upperGenKeyPanel = new JPanel();
-//        lowerGenKeyPanel = new JPanel();
-
-
-//        content.setLayout(new GridLayout(1, 3));
-//
-//        genKeyPanel = new JPanel(new GridLayout(2, 1));
-//        encryptPanel = new JPanel(new GridLayout(5, 1));
-//        decryptPanel = new JPanel(new GridLayout(5, 1));
-//
-//        upperGenKeyPanel = new JPanel(new GridLayout(1, 3));
-//        lowerGenKeyPanel = new JPanel(new GridLayout(3, 1));
+        genKeyBox = Box.createVerticalBox();
 
         bitLengthLabel = new JLabel("bit length");
         bitLengthCombo = new JComboBox<Integer>(new Integer[]{1024, 2048});
         genKeyButton = new JButton("gen key");
         publicKeyLabel = new JLabel("public key");
+        publicKeyLabel.setLabelFor(publicKeyDisp);
         privateKeyLabel = new JLabel("private key");
-        publicKeyDisp = new JTextArea(20, 20);
-        privateKeyDisp = new JTextArea(20, 20);
+        privateKeyLabel.setLabelFor(privateKeyDisp);
+        publicKeyDisp = new JTextArea(18, 20);
+        privateKeyDisp = new JTextArea(18, 20);
 
         encryptLabel = new JLabel("Encrypt");
         encryptInLabel = new JLabel("Input (Unicode in UTF-8)");
+        encryptInLabel.setLabelFor(encryptInput);
         encryptOutLabel = new JLabel("Output (Hex)");
+        encryptOutLabel.setLabelFor(encryptOutput);
         encryptInput = new JTextArea(20, 20);
         encryptOutput = new JTextArea(20, 20);
 
         decryptLabel = new JLabel("Decrypt");
         decryptInLabel = new JLabel("Input (Hex)");
+        decryptInLabel.setLabelFor(decryptInput);
         decryptOutLabel = new JLabel("Output (Unicode in UTF-8)");
+        decryptOutLabel.setLabelFor(decryptOutput);
         decryptInput = new JTextArea(20, 20);
-        decryptOuput = new JTextArea(20, 20);
+        decryptOutput = new JTextArea(20, 20);
 
         upperGenKeyPanel.add(bitLengthLabel);
         upperGenKeyPanel.add(bitLengthCombo);
         upperGenKeyPanel.add(genKeyButton);
 
-//        lowerGenKeyPanel.add(publicKeyLabel);
-//        lowerGenKeyPanel.add(publicKeyDisp);
-//        lowerGenKeyPanel.add(privateKeyLabel);
-//        lowerGenKeyPanel.add(privateKeyDisp);
+        genKeyBox.add(publicKeyLabel);
+        genKeyBox.add(Box.createVerticalStrut(10));
+        genKeyBox.add(publicKeyDisp);
+        genKeyBox.add(Box.createVerticalStrut(10));
+        genKeyBox.add(privateKeyLabel);
+        genKeyBox.add(Box.createVerticalStrut(10));
+        genKeyBox.add(privateKeyDisp);
 
         genKeyPanel.add(upperGenKeyPanel);
-//        genKeyPanel.add(lowerGenKeyPanel);
-        genKeyPanel.add(publicKeyLabel);
-        genKeyPanel.add(publicKeyDisp);
-        genKeyPanel.add(privateKeyLabel);
-        genKeyPanel.add(privateKeyDisp);
+        genKeyPanel.add(genKeyBox);
 
         encryptPanel.add(encryptLabel);
         encryptPanel.add(encryptInLabel);
@@ -109,7 +104,7 @@ public class RSAUI extends JFrame {
         decryptPanel.add(decryptInLabel);
         decryptPanel.add(decryptInput);
         decryptPanel.add(decryptOutLabel);
-        decryptPanel.add(decryptOuput);
+        decryptPanel.add(decryptOutput);
 
         content.add(genKeyPanel);
         content.add(encryptPanel);
