@@ -6,10 +6,10 @@ import java.awt.*;
 public class RSAUI extends JFrame {
     private RSA rsa = new RSA(1024);
 
-    private final int WIDTH = 1800;
+    private final int WIDTH = 900;
     private final int HEIGHT = 600;
 
-    private Container content;
+    private JPanel content;
 
     private JPanel genKeyPanel;
     private JPanel upperGenKeyPanel;
@@ -39,18 +39,18 @@ public class RSAUI extends JFrame {
     public RSAUI() {
         super("RSA by weiyuxuan");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setPreferredSize(new Dimension(WIDTH, HEIGHT));
+        setMinimumSize(new Dimension(WIDTH, HEIGHT));
         setResizable(false);
 
-        content = getContentPane();
+        content = new JPanel();
         content.setLayout(new GridLayout(1, 3));
 
-        genKeyPanel = new JPanel(new GridLayout(3, 1));
-        encryptPanel = new JPanel(new GridLayout(3, 1));
-        decryptPanel = new JPanel(new GridLayout(3, 1));
+        genKeyPanel = new JPanel(new GridLayout(2, 1));
+        encryptPanel = new JPanel(new GridLayout(5, 1));
+        decryptPanel = new JPanel(new GridLayout(5, 1));
 
-        upperGenKeyPanel = new JPanel(new GridLayout(1, 2));
-        lowerGenKeyPanel = new JPanel(new GridLayout(2, 1));
+        upperGenKeyPanel = new JPanel(new GridLayout(1, 3));
+        lowerGenKeyPanel = new JPanel(new GridLayout(3, 1));
         bitLengthLabel = new JLabel("bit length");
         bitLengthCombo = new JComboBox<Integer>(new Integer[]{1024, 2048});
         genKeyButton = new JButton("gen key");
@@ -98,5 +98,7 @@ public class RSAUI extends JFrame {
         content.add(genKeyPanel);
         content.add(encryptPanel);
         content.add(decryptPanel);
+
+        this.add(content);
     }
 }
