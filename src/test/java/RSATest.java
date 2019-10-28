@@ -9,6 +9,9 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 
+/**
+ * test {@code rsa.RSA}
+ */
 @RunWith(Parameterized.class)
 public class RSATest {
     private RSA rsa;

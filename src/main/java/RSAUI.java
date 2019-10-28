@@ -66,8 +66,8 @@ public class RSAUI extends JFrame {
         privateKeyLabel.setLabelFor(privateKeyDisp);
         publicKeyDisp = new JTextArea(18, 30);
         privateKeyDisp = new JTextArea(18, 30);
-        publicKeyDisp.setEnabled(false);
-        privateKeyDisp.setEnabled(false);
+        publicKeyDisp.setEditable(false);
+        privateKeyDisp.setEditable(false);
         publicKeyDisp.setLineWrap(true);
         privateKeyDisp.setLineWrap(true);
 

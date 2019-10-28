@@ -2,6 +2,11 @@ package utils;
 
 import java.io.UnsupportedEncodingException;
 
+/**
+ * Deal with string encoding and decoding
+ * @Author weiyuxuan, weiyuxua19@mails.tsinghua.edu.cn
+ * @Time 2019-10-26
+ */
 public class StringUtils {
     public static String byteArrayToHexString(byte[] bytes) {
         StringBuilder sb = new StringBuilder();

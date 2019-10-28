@@ -1,5 +1,6 @@
 package rsa;
 
+import java.awt.*;
 import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.Random;
@@ -8,7 +9,7 @@ import utils.StringUtils;
 
 /**
  * RSA cipher system
- * @Autor weiyuxuan, weiyuxua19@mails.tsinghua.edu.cn
+ * @Author weiyuxuan, weiyuxua19@mails.tsinghua.edu.cn
  * @Time 2019-10-26
  */
 public class RSA {

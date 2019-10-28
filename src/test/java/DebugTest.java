@@ -8,6 +8,9 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 
+/**
+ * test basic math operations in {@code rsa.RSA}
+ */
 public class DebugTest {
     private RSA rsa;
 
