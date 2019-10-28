@@ -2,6 +2,8 @@ import rsa.RSA;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class RSAUI extends JFrame {
     private RSA rsa = new RSA(1024);
@@ -9,11 +11,13 @@ public class RSAUI extends JFrame {
     private final int WIDTH = 900;
     private final int HEIGHT = 900;
 
-    private JPanel content;
+    private Box contentBox;
 
-    private JPanel genKeyPanel;
-    private JPanel upperGenKeyPanel;
     private Box genKeyBox;
+    private Box genKeyUpperBox;
+    private Box genKeyLowerBox;
+    private Box publicKeyBox;
+    private Box privateKeyBox;
     private JLabel bitLengthLabel;
     private JComboBox<Integer> bitLengthCombo;
     private JButton genKeyButton;
@@ -22,15 +26,15 @@ public class RSAUI extends JFrame {
     private JTextArea publicKeyDisp;
     private JTextArea privateKeyDisp;
 
-    private JPanel encryptPanel;
-    private JLabel encryptLabel;
+    private Box encryptBox;
+    private JButton encryptButton;
     private JLabel encryptInLabel;
     private JLabel encryptOutLabel;
     private JTextArea encryptInput;
     private JTextArea encryptOutput;
 
-    private JPanel decryptPanel;
-    private JLabel decryptLabel;
+    private Box decryptBox;
+    private JButton decryptButton;
     private JLabel decryptInLabel;
     private JLabel decryptOutLabel;
     private JTextArea decryptInput;
@@ -42,16 +46,17 @@ public class RSAUI extends JFrame {
         setMinimumSize(new Dimension(WIDTH, HEIGHT));
         setResizable(false);
 
-        content = new JPanel();
+        contentBox = Box.createHorizontalBox();
 
-        content.setLayout(new GridLayout(1, 3));
-
-        genKeyPanel = new JPanel(new FlowLayout());
-        encryptPanel = new JPanel();
-        decryptPanel = new JPanel();
-
-        upperGenKeyPanel = new JPanel();
         genKeyBox = Box.createVerticalBox();
+        encryptBox = Box.createVerticalBox();
+        decryptBox = Box.createVerticalBox();
+
+        genKeyUpperBox = Box.createHorizontalBox();
+        genKeyLowerBox = Box.createHorizontalBox();
+
+        publicKeyBox = Box.createVerticalBox();
+        privateKeyBox = Box.createVerticalBox();
 
         bitLengthLabel = new JLabel("bit length");
         bitLengthCombo = new JComboBox<Integer>(new Integer[]{1024, 2048});
@@ -60,56 +65,80 @@ public class RSAUI extends JFrame {
         publicKeyLabel.setLabelFor(publicKeyDisp);
         privateKeyLabel = new JLabel("private key");
         privateKeyLabel.setLabelFor(privateKeyDisp);
-        publicKeyDisp = new JTextArea(18, 20);
-        privateKeyDisp = new JTextArea(18, 20);
+        publicKeyDisp = new JTextArea(18, 30);
+        privateKeyDisp = new JTextArea(18, 30);
 
-        encryptLabel = new JLabel("Encrypt");
+        encryptButton = new JButton("Encrypt");
         encryptInLabel = new JLabel("Input (Unicode in UTF-8)");
         encryptInLabel.setLabelFor(encryptInput);
         encryptOutLabel = new JLabel("Output (Hex)");
         encryptOutLabel.setLabelFor(encryptOutput);
-        encryptInput = new JTextArea(20, 20);
-        encryptOutput = new JTextArea(20, 20);
+        encryptInput = new JTextArea(18, 18);
+        encryptOutput = new JTextArea(18, 18);
 
-        decryptLabel = new JLabel("Decrypt");
+        decryptButton = new JButton("Decrypt");
         decryptInLabel = new JLabel("Input (Hex)");
         decryptInLabel.setLabelFor(decryptInput);
         decryptOutLabel = new JLabel("Output (Unicode in UTF-8)");
         decryptOutLabel.setLabelFor(decryptOutput);
-        decryptInput = new JTextArea(20, 20);
-        decryptOutput = new JTextArea(20, 20);
+        decryptInput = new JTextArea(18, 18);
+        decryptOutput = new JTextArea(18, 18);
 
-        upperGenKeyPanel.add(bitLengthLabel);
-        upperGenKeyPanel.add(bitLengthCombo);
-        upperGenKeyPanel.add(genKeyButton);
+        bitLengthCombo.addActionListener(e -> {
+            Integer bitLength = (Integer) bitLengthCombo.getSelectedItem();
+            rsa.setBitLength(bitLength==null? 1024: bitLength);
+        });
 
-        genKeyBox.add(publicKeyLabel);
-        genKeyBox.add(Box.createVerticalStrut(10));
-        genKeyBox.add(publicKeyDisp);
-        genKeyBox.add(Box.createVerticalStrut(10));
-        genKeyBox.add(privateKeyLabel);
-        genKeyBox.add(Box.createVerticalStrut(10));
-        genKeyBox.add(privateKeyDisp);
+        genKeyUpperBox.add(bitLengthLabel);
+        genKeyUpperBox.add(bitLengthCombo);
+        genKeyUpperBox.add(genKeyButton);
 
-        genKeyPanel.add(upperGenKeyPanel);
-        genKeyPanel.add(genKeyBox);
+        publicKeyBox.add(publicKeyLabel);
+        publicKeyBox.add(Box.createVerticalStrut(4));
+        publicKeyBox.add(publicKeyDisp);
+        publicKeyBox.add(privateKeyLabel);
+        publicKeyBox.add(Box.createVerticalStrut(4));
+        publicKeyBox.add(privateKeyDisp);
 
-        encryptPanel.add(encryptLabel);
-        encryptPanel.add(encryptInLabel);
-        encryptPanel.add(encryptInput);
-        encryptPanel.add(encryptOutLabel);
-        encryptPanel.add(encryptOutput);
+        genKeyLowerBox.add(publicKeyBox);
+        genKeyLowerBox.add(privateKeyBox);
 
-        decryptPanel.add(decryptLabel);
-        decryptPanel.add(decryptInLabel);
-        decryptPanel.add(decryptInput);
-        decryptPanel.add(decryptOutLabel);
-        decryptPanel.add(decryptOutput);
+        genKeyBox.add(genKeyUpperBox);
+        genKeyBox.add(genKeyLowerBox);
 
-        content.add(genKeyPanel);
-        content.add(encryptPanel);
-        content.add(decryptPanel);
+        encryptBox.add(encryptButton);
+        encryptBox.add(encryptInLabel);
+        encryptBox.add(Box.createVerticalStrut(4));
+        encryptBox.add(encryptInput);
+        encryptBox.add(Box.createVerticalStrut(4));
+        encryptBox.add(encryptOutLabel);
+        encryptBox.add(Box.createVerticalStrut(4));
+        encryptBox.add(encryptOutput);
 
-        this.add(content);
+        decryptBox.add(decryptButton);
+        decryptBox.add(decryptInLabel);
+        decryptBox.add(Box.createVerticalStrut(4));
+        decryptBox.add(decryptInput);
+        decryptBox.add(Box.createVerticalStrut(4));
+        decryptBox.add(decryptOutLabel);
+        decryptBox.add(Box.createVerticalStrut(4));
+        decryptBox.add(decryptOutput);
+
+        contentBox.add(Box.createHorizontalStrut(4));
+        contentBox.add(genKeyBox);
+        contentBox.add(Box.createHorizontalStrut(4));
+        contentBox.add(encryptBox);
+        contentBox.add(Box.createHorizontalStrut(4));
+        contentBox.add(decryptBox);
+        contentBox.add(Box.createHorizontalStrut(4));
+
+        this.add(contentBox);
     }
+
+//    private class ButtonListener implements ActionListener {
+//        @Override
+//        public void actionPerformed(ActionEvent e) {
+//
+//        }
+//    }
 }
