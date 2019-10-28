@@ -2,13 +2,12 @@ import rsa.RSA;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.util.HashMap;
 
 public class RSAUI extends JFrame {
     private RSA rsa = new RSA(1024);
 
-    private final int WIDTH = 900;
+    private final int WIDTH = 1200;
     private final int HEIGHT = 900;
 
     private Box contentBox;
@@ -61,12 +60,16 @@ public class RSAUI extends JFrame {
         bitLengthLabel = new JLabel("bit length");
         bitLengthCombo = new JComboBox<Integer>(new Integer[]{1024, 2048});
         genKeyButton = new JButton("gen key");
-        publicKeyLabel = new JLabel("public key");
+        publicKeyLabel = new JLabel("public key (Hex)");
         publicKeyLabel.setLabelFor(publicKeyDisp);
-        privateKeyLabel = new JLabel("private key");
+        privateKeyLabel = new JLabel("private key (Hex)");
         privateKeyLabel.setLabelFor(privateKeyDisp);
         publicKeyDisp = new JTextArea(18, 30);
         privateKeyDisp = new JTextArea(18, 30);
+        publicKeyDisp.setEnabled(false);
+        privateKeyDisp.setEnabled(false);
+        publicKeyDisp.setLineWrap(true);
+        privateKeyDisp.setLineWrap(true);
 
         encryptButton = new JButton("Encrypt");
         encryptInLabel = new JLabel("Input (Unicode in UTF-8)");
@@ -75,6 +78,8 @@ public class RSAUI extends JFrame {
         encryptOutLabel.setLabelFor(encryptOutput);
         encryptInput = new JTextArea(18, 18);
         encryptOutput = new JTextArea(18, 18);
+        encryptInput.setLineWrap(true);
+        encryptOutput.setLineWrap(true);
 
         decryptButton = new JButton("Decrypt");
         decryptInLabel = new JLabel("Input (Hex)");
@@ -83,11 +88,8 @@ public class RSAUI extends JFrame {
         decryptOutLabel.setLabelFor(decryptOutput);
         decryptInput = new JTextArea(18, 18);
         decryptOutput = new JTextArea(18, 18);
-
-        bitLengthCombo.addActionListener(e -> {
-            Integer bitLength = (Integer) bitLengthCombo.getSelectedItem();
-            rsa.setBitLength(bitLength==null? 1024: bitLength);
-        });
+        decryptInput.setLineWrap(true);
+        decryptOutput.setLineWrap(true);
 
         genKeyUpperBox.add(bitLengthLabel);
         genKeyUpperBox.add(bitLengthCombo);
@@ -133,12 +135,44 @@ public class RSAUI extends JFrame {
         contentBox.add(Box.createHorizontalStrut(4));
 
         this.add(contentBox);
+
+        bitLengthCombo.addActionListener(e -> {
+            Integer bitLength = (Integer) bitLengthCombo.getSelectedItem();
+            rsa.setBitLength(bitLength==null? 1024: bitLength);
+        });
+
+        genKeyButton.addActionListener(e -> {
+            HashMap<String, String> kp = rsa.genKeyPair();
+            publicKeyDisp.setText(kp.get("publicKey"));
+            privateKeyDisp.setText(kp.get("privateKey"));
+        });
+
+        encryptButton.addActionListener(e -> {
+            String msg = encryptInput.getText();
+            String enc = rsa.encrypt(msg);
+            encryptOutput.setText(enc);
+        });
+
+        decryptButton.addActionListener(e -> {
+            String msg = decryptInput.getText();
+            String dec = rsa.decrypt(msg);
+            decryptOutput.setText(dec);
+        });
+
+        initDisp("楠姐最美");
     }
 
-//    private class ButtonListener implements ActionListener {
-//        @Override
-//        public void actionPerformed(ActionEvent e) {
-//
-//        }
-//    }
+    private void initDisp(String msg) {
+        HashMap<String, String> kp = rsa.genKeyPair();
+        publicKeyDisp.setText(kp.get("publicKey"));
+        privateKeyDisp.setText(kp.get("privateKey"));
+
+        encryptInput.setText(msg);
+        String enc = rsa.encrypt(msg);
+        encryptOutput.setText(enc);
+
+        decryptInput.setText(enc);
+        String dec = rsa.decrypt(enc);
+        decryptOutput.setText(dec);
+    }
 }

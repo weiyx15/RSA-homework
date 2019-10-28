@@ -91,10 +91,8 @@ public class RSA {
         try {
             msg = StringUtils.utf8ToHex(msg);
             return transformHexString(msg, publicKey, modulus, bitLength);
-        } catch (ArithmeticException e) {
-            return e.toString();
-        } catch (NullPointerException e) {
-            return e.toString();
+        } catch (ArithmeticException | NullPointerException e) {
+            return e.getMessage();
         }
     }
 
@@ -110,10 +108,8 @@ public class RSA {
         try {
             String hex = transformHexString(scr, privateKey, modulus, bitLength);
             return StringUtils.hexToUtf8(hex);
-        } catch (ArithmeticException e) {
-            return e.toString();
-        } catch (NullPointerException e) {
-            return e.toString();
+        } catch (ArithmeticException | NullPointerException e) {
+            return e.getMessage();
         }
     }
 
@@ -155,7 +151,12 @@ public class RSA {
         if (key == null || modu == null) {
             throw new NullPointerException("Keys not set");
         }
-        BigInteger bint = new BigInteger(src, 16);
+        BigInteger bint;
+        try {
+            bint = new BigInteger(src, 16);
+        } catch (NumberFormatException e) {
+            return "";
+        }
         if (bint.compareTo(modu) >= 0) {
             throw new ArithmeticException("Bytes of String must be under " + bitLength/8);
         }
